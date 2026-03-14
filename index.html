@@ -1,200 +1,297 @@
-```html
 <!DOCTYPE html>
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>معايدة لزوجتي ❤️</title>
 
 <style>
 body{
-margin:0;
-font-family:Arial;
-background:linear-gradient(#fff0f5,#ffe4e1);
-text-align:center;
-direction:rtl;
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(#fff0f5,#ffe4e1);
+  text-align:center;
+  direction:rtl;
+  overflow:hidden;
 }
 
 .container{
-margin-top:15vh;
+  position:relative;
+  z-index:2;
+  margin-top:12vh;
+  padding:20px;
+}
+
+h1,h2{
+  color:#c2185b;
+}
+
+p{
+  font-size:20px;
+  color:#444;
+  line-height:1.8;
 }
 
 button{
-font-size:20px;
-padding:10px 25px;
-border:none;
-border-radius:20px;
-cursor:pointer;
-margin:10px;
+  font-size:20px;
+  padding:12px 22px;
+  border:none;
+  border-radius:18px;
+  cursor:pointer;
+  margin:8px;
+  transition:0.2s;
 }
 
-#yes{background:#c2185b;color:white;}
-#no{background:#999;color:white;position:absolute;}
-
-#gameBoard{
-display:grid;
-grid-template-columns:repeat(3,100px);
-gap:10px;
-justify-content:center;
-margin-top:20px;
+#yes{
+  background:#c2185b;
+  color:white;
 }
 
-.cell{
-width:100px;
-height:100px;
-background:white;
-border-radius:10px;
-font-size:40px;
-display:flex;
-align-items:center;
-justify-content:center;
-cursor:pointer;
+#no{
+  background:#999;
+  color:white;
+  position:absolute;
 }
 
-#mission,#game,#saved,#message{
-display:none;
+#mission,
+#quiz,
+#encourage,
+#message{
+  display:none;
+}
+
+.answers{
+  position:relative;
+  width:100%;
+  max-width:700px;
+  height:320px;
+  margin:25px auto 0;
+}
+
+.answer{
+  position:absolute;
+  background:white;
+  color:#333;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+.correct{
+  background:#c2185b;
+  color:white;
+}
+
+#nextBtn{
+  background:#c2185b;
+  color:white;
+  margin-top:20px;
+}
+
+.heart{
+  position:fixed;
+  color:#ff4d6d;
+  font-size:20px;
+  animation:float 6s linear infinite;
+  pointer-events:none;
+  z-index:1;
+}
+
+@keyframes float{
+  0%{
+    transform:translateY(100vh) scale(1);
+    opacity:1;
+  }
+  100%{
+    transform:translateY(-10vh) scale(1.5);
+    opacity:0;
+  }
 }
 </style>
 </head>
-
 <body>
 
 <div class="container" id="question">
-<h1>تحبيني؟ 🤭</h1>
-<button id="yes" onclick="startMission()">إيوا 😍</button>
-<button id="no">لا 🙈</button>
+  <h1>تحبيني؟ 🤭</h1>
+  <button id="yes" onclick="startMission()">إيوا 😍</button>
+  <button id="no">لا 🙈</button>
 </div>
 
 <div class="container" id="mission">
-<h2> إذا تحبيني صدق... فوزي بلعبة إكس أو وأنقذيني ❤️</h2>
-<button onclick="startGame()">ابدئي اللعبة 🎮</button>
+  <h2>إذا تحبيني صدق... جاوبي على الأسئلة وأنقذيني ❤️</h2>
+  <button id="nextBtn" onclick="startQuiz()">ابدئي الأسئلة 🎀</button>
 </div>
 
-<div class="container" id="game">
-<h2>فوزي علي 😏</h2>
-
-<div id="gameBoard">
-<div class="cell" onclick="play(this,0)"></div>
-<div class="cell" onclick="play(this,1)"></div>
-<div class="cell" onclick="play(this,2)"></div>
-<div class="cell" onclick="play(this,3)"></div>
-<div class="cell" onclick="play(this,4)"></div>
-<div class="cell" onclick="play(this,5)"></div>
-<div class="cell" onclick="play(this,6)"></div>
-<div class="cell" onclick="play(this,7)"></div>
-<div class="cell" onclick="play(this,8)"></div>
+<div class="container" id="quiz">
+  <h2 id="questionTitle"></h2>
+  <div class="answers" id="answersBox"></div>
 </div>
 
-</div>
-
-<div class="container" id="saved">
-<h1>أنقذتيني ❤️</h1>
-<button onclick="showLove()">افتحي المعايدة 🎁</button>
+<div class="container" id="encourage">
+  <h2 id="encourageText"></h2>
+  <button id="nextBtn" onclick="nextQuestion()">السؤال اللي بعده 😌</button>
 </div>
 
 <div class="container" id="message">
-<h1>✨ معايدتي لحبيبه عيوني الغالية ✨</h1>
-<p>
-  أنت لا تستوعبين كيف أركِ
-وبأي طريقةٍ أنغمسُ في تفاصيلك نظرةٌ بسيطة من عينيك تُحدث أحداثًا كبيرة وكيف أرى قليلك كثيرًا مُنعشًا شافيًا أرى بملامحك البراءة والقوة والشجاعة والحنان أحبُّ فيك طريقةَ انصاتك وحديثك العفوي أنتِ هنيّةٌ جدًا على الر
-وكلّما رأيتك بائسة أكون لك جسرًا تعبرين مِن خلالي نحو الابتهاج 
-أيّتها الكثيرة
-من قلبي أقولها…  
-وجودك بحياتي هو العيد 🤍  
-كل سنة وأنا أحبك أكثر  
-وكل يوم أحمد الله عليك  
+  <h1>✨ معايدتي لزوجتي الغالية ✨</h1>
+  <p>
+أنتِ لا تستوعبين كيف أراكِ،<br>
+وبأي طريقةٍ أنغمس في تفاصيلك.<br>
+نظرةٌ بسيطة من عينيك تُحدث في قلبي أحداثًا كبيرة،<br>
+وكيف أرى قليلك كثيرًا، مُنعشًا، شافيًا.<br><br>
+
+أرى في ملامحك البراءة، والقوة، والشجاعة، والحنان،<br>
+وأحب فيك طريقة إنصاتك، وحديثك العفوي الجميل.<br>
+أنتِ هنيّةٌ جدًا على الروح،<br>
+وكلّما رأيتك بائسةً أكون لك جسرًا<br>
+تعبرين من خلالي نحو الابتهاج.<br><br>
+
+أيّتها الكثيرة في قلبي...<br><br>
+
+من قلبي أقولها…<br>
+وجودك بحياتي هو العيد 🤍<br>
+كل سنة وأنا أحبك أكثر،<br>
+وكل يوم أحمد الله عليك،<br>
 أحبك للأبد 🤎🌹
 </p>
 </div>
 
 <script>
+const noBtn = document.getElementById("no");
 
-const noBtn=document.getElementById("no");
-
-function move(){
-const x=Math.random()*(window.innerWidth-100);
-const y=Math.random()*(window.innerHeight-50);
-noBtn.style.left=x+"px";
-noBtn.style.top=y+"px";
+function moveNoButton(){
+  const x = Math.random() * (window.innerWidth - 110);
+  const y = Math.random() * (window.innerHeight - 60);
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
 }
-
-noBtn.addEventListener("mouseover",move);
-noBtn.addEventListener("touchstart",move);
+noBtn.addEventListener("mouseover", moveNoButton);
+noBtn.addEventListener("touchstart", moveNoButton);
 
 function startMission(){
-document.getElementById("question").style.display="none";
-document.getElementById("mission").style.display="block";
+  document.getElementById("question").style.display = "none";
+  document.getElementById("mission").style.display = "block";
 }
 
-let board=["","","","","","","","",""];
-
-function startGame(){
-document.getElementById("mission").style.display="none";
-document.getElementById("game").style.display="block";
-}
-
-function play(cell,index){
-
-if(board[index]!="") return;
-
-board[index]="❤️";
-cell.innerHTML="❤️";
-
-if(checkWin("❤️")){
-win();
-return;
-}
-
-computerMove();
-
-}
-
-function computerMove(){
-
-let empty=[];
-
-for(let i=0;i<board.length;i++){
-if(board[i]=="") empty.push(i);
-}
-
-if(empty.length==0) return;
-
-let random=empty[Math.floor(Math.random()*empty.length)];
-
-board[random]="🤖";
-
-document.getElementsByClassName("cell")[random].innerHTML="🤖";
-
-}
-
-function checkWin(p){
-
-const wins=[
-[0,1,2],[3,4,5],[6,7,8],
-[0,3,6],[1,4,7],[2,5,8],
-[0,4,8],[2,4,6]
+const quizData = [
+  {
+    question: "مين أكثر شخص يحبك في الدنيا؟ 😌",
+    options: ["أنا", "البقال", "سواق التكسي", "بطارية الجوال"],
+    correct: "أنا",
+    message: "صح عليك.. البداية قوية والنجاح يليق فيك ❤️"
+  },
+  {
+    question: "أكثر شيء يضبط يومي؟",
+    options: ["ضحكتك", "فاتورة الكهرباء", "صوت المنبه", "إشارة المرور"],
+    correct: "ضحكتك",
+    message: "أيييه كذا، واضح إنك فاهمتني مرة 🤍"
+  },
+  {
+    question: "إذا زعلت، مين يرجعني بسرعة؟",
+    options: ["إنتِ", "الواي فاي", "الشاهي بدون سكر", "مكيف المجلس"],
+    correct: "إنتِ",
+    message: "بطلة والله، أنقذتيني من الزعل قبل أصلًا 😭❤️"
+  },
+  {
+    question: "أنا بالنسبة لك وش؟",
+    options: ["كل شيء", "مندوب شحن", "جدول الضرب", "دراجة الحارة"],
+    correct: "كل شيء",
+    message: "يا سلام... جواب يفوز بالقلب مباشرة 🌹"
+  },
+  {
+    question: "جاذبية الأرض ايش هيا؟ 😏",
+    options: ["٩.٨", "عيونك", "انا", "لمبة الثلاجة"],
+    correct: "عيونك",
+    message: "عرفت إنك خطيرة... خلاص سحبتي الجاذبية من الكوكب كله ✨❤️"
+  }
 ];
 
-return wins.some(c=>c.every(i=>board[i]==p));
+let currentQuestion = 0;
 
+function startQuiz(){
+  document.getElementById("mission").style.display = "none";
+  document.getElementById("quiz").style.display = "block";
+  renderQuestion();
 }
 
-function win(){
+function renderQuestion(){
+  const q = quizData[currentQuestion];
+  document.getElementById("questionTitle").innerText = q.question;
 
-document.getElementById("game").style.display="none";
-document.getElementById("saved").style.display="block";
+  const answersBox = document.getElementById("answersBox");
+  answersBox.innerHTML = "";
 
+  const positions = [
+    {top:"20px", right:"20px"},
+    {top:"20px", left:"20px"},
+    {bottom:"20px", right:"20px"},
+    {bottom:"20px", left:"20px"}
+  ];
+
+  q.options.forEach((option, index) => {
+    const btn = document.createElement("button");
+    btn.className = "answer";
+    btn.innerText = option;
+
+    Object.assign(btn.style, positions[index]);
+
+    if(option === q.correct){
+      btn.classList.add("correct");
+      btn.onclick = () => correctAnswer();
+    } else {
+      btn.onmouseover = () => moveWrongButton(btn);
+      btn.ontouchstart = () => moveWrongButton(btn);
+      btn.onclick = () => moveWrongButton(btn);
+    }
+
+    answersBox.appendChild(btn);
+  });
 }
 
-function showLove(){
+function moveWrongButton(btn){
+  const box = document.getElementById("answersBox");
+  const maxX = box.clientWidth - 130;
+  const maxY = box.clientHeight - 70;
 
-document.getElementById("saved").style.display="none";
-document.getElementById("message").style.display="block";
-
+  btn.style.left = Math.random() * maxX + "px";
+  btn.style.top = Math.random() * maxY + "px";
+  btn.style.right = "auto";
+  btn.style.bottom = "auto";
 }
 
+function correctAnswer(){
+  document.getElementById("quiz").style.display = "none";
+  document.getElementById("encourage").style.display = "block";
+  document.getElementById("encourageText").innerText = quizData[currentQuestion].message;
+}
+
+function nextQuestion(){
+  currentQuestion++;
+
+  if(currentQuestion < quizData.length){
+    document.getElementById("encourage").style.display = "none";
+    document.getElementById("quiz").style.display = "block";
+    renderQuestion();
+  } else {
+    document.getElementById("encourage").style.display = "none";
+    document.getElementById("message").style.display = "block";
+    startHearts();
+  }
+}
+
+function createHeart(){
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "💖";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = (15 + Math.random() * 30) + "px";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 6000);
+}
+
+let heartsInterval;
+function startHearts(){
+  heartsInterval = setInterval(createHeart, 250);
+}
 </script>
 
 </body>
 </html>
-```
-
