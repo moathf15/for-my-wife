@@ -9,27 +9,47 @@
 body{
   margin:0;
   font-family:Arial,sans-serif;
-  background:linear-gradient(#fff0f5,#ffe4e1);
+  background:linear-gradient(180deg,#fffdfd 0%, #fff4f8 45%, #ffe3ec 100%);
   text-align:center;
   direction:rtl;
-  overflow:hidden;
+  min-height:100vh;
+  overflow-x:hidden;
 }
 
 .container{
   position:relative;
   z-index:2;
-  margin-top:12vh;
-  padding:20px;
+  width:90%;
+  max-width:800px;
+  margin:0 auto;
+  padding:40px 15px;
+}
+
+.screen{
+  display:none;
+  min-height:100vh;
+  box-sizing:border-box;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+}
+
+.screen.active{
+  display:flex;
 }
 
 h1,h2{
   color:#c2185b;
+  line-height:1.8;
+  margin-bottom:18px;
 }
 
 p{
-  font-size:20px;
+  font-size:22px;
   color:#444;
-  line-height:1.8;
+  line-height:2.2;
+  white-space:normal;
+  word-break:break-word;
 }
 
 button{
@@ -40,50 +60,45 @@ button{
   cursor:pointer;
   margin:8px;
   transition:0.2s;
+  background:white;
+  color:#444;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
 
-#yes{
+button:hover{
+  transform:scale(1.03);
+}
+
+#yes,#nextBtn{
   background:#c2185b;
   color:white;
 }
 
 #no{
-  background:#999;
-  color:white;
   position:absolute;
-}
-
-#mission,
-#quiz,
-#encourage,
-#message{
-  display:none;
 }
 
 .answers{
   position:relative;
   width:100%;
   max-width:700px;
-  height:320px;
+  height:340px;
   margin:25px auto 0;
 }
 
 .answer{
   position:absolute;
+  min-width:120px;
   background:white;
-  color:#333;
-  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+  color:#444;
 }
 
-.correct{
-  background:#c2185b;
-  color:white;
-}
-
-#nextBtn{
-  background:#c2185b;
-  color:white;
-  margin-top:20px;
+#message p{
+  background:rgba(255,255,255,0.72);
+  padding:25px 18px;
+  border-radius:22px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.07);
+  font-size:21px;
 }
 
 .heart{
@@ -105,53 +120,87 @@ button{
     opacity:0;
   }
 }
+
+@media (max-width:600px){
+  h1,h2{
+    font-size:26px;
+  }
+
+  p{
+    font-size:18px;
+    line-height:2;
+  }
+
+  button{
+    font-size:18px;
+    padding:10px 18px;
+  }
+
+  .answers{
+    height:380px;
+  }
+
+  #message p{
+    font-size:18px;
+  }
+}
 </style>
 </head>
 <body>
 
-<div class="container" id="question">
-  <h1>تحبيني؟ 🤭</h1>
-  <button id="yes" onclick="startMission()">إيوا 😍</button>
-  <button id="no">لا 🙈</button>
+<div class="screen active" id="questionScreen">
+  <div class="container">
+    <h1>تحبيني؟ 🤭</h1>
+    <button id="yes" onclick="startMission()">إيوا 😍</button>
+    <button id="no">لا 🙈</button>
+  </div>
 </div>
 
-<div class="container" id="mission">
-  <h2>إذا تحبيني صدق... جاوبي على الأسئلة وأنقذيني ❤️</h2>
-  <button id="nextBtn" onclick="startQuiz()">ابدئي الأسئلة 🎀</button>
+<div class="screen" id="missionScreen">
+  <div class="container">
+    <h2>إذا تحبيني صدق... جاوبي على الأسئلة وأنقذيني ❤️</h2>
+    <button id="nextBtn" onclick="startQuiz()">ابدئي الأسئلة 🎀</button>
+  </div>
 </div>
 
-<div class="container" id="quiz">
-  <h2 id="questionTitle"></h2>
-  <div class="answers" id="answersBox"></div>
+<div class="screen" id="quizScreen">
+  <div class="container">
+    <h2 id="questionTitle"></h2>
+    <div class="answers" id="answersBox"></div>
+  </div>
 </div>
 
-<div class="container" id="encourage">
-  <h2 id="encourageText"></h2>
-  <button id="nextBtn" onclick="nextQuestion()">السؤال اللي بعده 😌</button>
+<div class="screen" id="encourageScreen">
+  <div class="container">
+    <h2 id="encourageText"></h2>
+    <button id="nextBtn" onclick="nextQuestion()">السؤال اللي بعده 😌</button>
+  </div>
 </div>
 
-<div class="container" id="message">
-  <h1>✨ معايدتي لزوجتي الغالية ✨</h1>
-  <p>
-أنتِ لا تستوعبين كيف أراكِ،<br>
-وبأي طريقةٍ أنغمس في تفاصيلك.<br>
-نظرةٌ بسيطة من عينيك تُحدث في قلبي أحداثًا كبيرة،<br>
-وكيف أرى قليلك كثيرًا، مُنعشًا، شافيًا.<br><br>
+<div class="screen" id="message">
+  <div class="container">
+    <h1>✨ معايدتي لزوجتي الغالية ✨</h1>
+    <p>
+      أنتِ لا تستوعبين كيف أراكِ،<br>
+      وبأي طريقةٍ أنغمس في تفاصيلك.<br>
+      نظرةٌ بسيطة من عينيك تُحدث في قلبي أحداثًا كبيرة،<br>
+      وكيف أرى قليلك كثيرًا، منعشًا، شافيًا.<br><br>
 
-أرى في ملامحك البراءة، والقوة، والشجاعة، والحنان،<br>
-وأحب فيك طريقة إنصاتك، وحديثك العفوي الجميل.<br>
-أنتِ هنيّةٌ جدًا على الروح،<br>
-وكلّما رأيتك بائسةً أكون لك جسرًا<br>
-تعبرين من خلالي نحو الابتهاج.<br><br>
+      أرى في ملامحك البراءة، والقوة، والشجاعة، والحنان،<br>
+      وأحب فيك طريقة إنصاتك، وحديثك العفوي الجميل.<br>
+      أنتِ هنيّةٌ جدًا على الروح،<br>
+      وكلّما رأيتك بائسةً أكون لك جسرًا<br>
+      تعبرين من خلالي نحو الابتهاج.<br><br>
 
-أيّتها الكثيرة في قلبي...<br><br>
+      أيّتها الكثيرة في قلبي...<br><br>
 
-من قلبي أقولها…<br>
-وجودك بحياتي هو العيد 🤍<br>
-كل سنة وأنا أحبك أكثر،<br>
-وكل يوم أحمد الله عليك،<br>
-أحبك للأبد 🤎🌹
-</p>
+      من قلبي أقولها…<br>
+      وجودك بحياتي هو العيد 🤍<br>
+      كل سنة وأنا أحبك أكثر،<br>
+      وكل يوم أحمد الله عليك،<br>
+      أحبك للأبد 🤎🌹
+    </p>
+  </div>
 </div>
 
 <script>
@@ -166,9 +215,15 @@ function moveNoButton(){
 noBtn.addEventListener("mouseover", moveNoButton);
 noBtn.addEventListener("touchstart", moveNoButton);
 
+function showScreen(id){
+  document.querySelectorAll(".screen").forEach(screen=>{
+    screen.classList.remove("active");
+  });
+  document.getElementById(id).classList.add("active");
+}
+
 function startMission(){
-  document.getElementById("question").style.display = "none";
-  document.getElementById("mission").style.display = "block";
+  showScreen("missionScreen");
 }
 
 const quizData = [
@@ -197,8 +252,8 @@ const quizData = [
     message: "يا سلام... جواب يفوز بالقلب مباشرة 🌹"
   },
   {
-    question: "جاذبية الأرض ايش هيا؟ 😏",
-    options: ["٩.٨", "عيونك", "انا", "لمبة الثلاجة"],
+    question: "جاذبية الأرض إيش هي؟ 😏",
+    options: ["٩.٨", "عيونك", "أنا", "لمبة الثلاجة"],
     correct: "عيونك",
     message: "عرفت إنك خطيرة... خلاص سحبتي الجاذبية من الكوكب كله ✨❤️"
   }
@@ -207,8 +262,8 @@ const quizData = [
 let currentQuestion = 0;
 
 function startQuiz(){
-  document.getElementById("mission").style.display = "none";
-  document.getElementById("quiz").style.display = "block";
+  currentQuestion = 0;
+  showScreen("quizScreen");
   renderQuestion();
 }
 
@@ -234,7 +289,6 @@ function renderQuestion(){
     Object.assign(btn.style, positions[index]);
 
     if(option === q.correct){
-      btn.classList.add("correct");
       btn.onclick = () => correctAnswer();
     } else {
       btn.onmouseover = () => moveWrongButton(btn);
@@ -248,7 +302,7 @@ function renderQuestion(){
 
 function moveWrongButton(btn){
   const box = document.getElementById("answersBox");
-  const maxX = box.clientWidth - 130;
+  const maxX = box.clientWidth - 140;
   const maxY = box.clientHeight - 70;
 
   btn.style.left = Math.random() * maxX + "px";
@@ -258,21 +312,18 @@ function moveWrongButton(btn){
 }
 
 function correctAnswer(){
-  document.getElementById("quiz").style.display = "none";
-  document.getElementById("encourage").style.display = "block";
   document.getElementById("encourageText").innerText = quizData[currentQuestion].message;
+  showScreen("encourageScreen");
 }
 
 function nextQuestion(){
   currentQuestion++;
 
   if(currentQuestion < quizData.length){
-    document.getElementById("encourage").style.display = "none";
-    document.getElementById("quiz").style.display = "block";
+    showScreen("quizScreen");
     renderQuestion();
   } else {
-    document.getElementById("encourage").style.display = "none";
-    document.getElementById("message").style.display = "block";
+    showScreen("message");
     startHearts();
   }
 }
@@ -289,6 +340,7 @@ function createHeart(){
 
 let heartsInterval;
 function startHearts(){
+  if(heartsInterval) clearInterval(heartsInterval);
   heartsInterval = setInterval(createHeart, 250);
 }
 </script>
