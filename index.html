@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ar">
 <head>
@@ -5,10 +6,8 @@
 <title>معايدة لزوجتي ❤️</title>
 
 <style>
-
 body{
 margin:0;
-overflow:hidden;
 font-family:Arial;
 background:linear-gradient(#fff0f5,#ffe4e1);
 text-align:center;
@@ -16,13 +15,7 @@ direction:rtl;
 }
 
 .container{
-margin-top:20vh;
-z-index:2;
-position:relative;
-}
-
-h1{
-color:#c2185b;
+margin-top:15vh;
 }
 
 button{
@@ -34,195 +27,157 @@ cursor:pointer;
 margin:10px;
 }
 
-#yes{
-background:#c2185b;
-color:white;
+#yes{background:#c2185b;color:white;}
+#no{background:#999;color:white;position:absolute;}
+
+#gameBoard{
+display:grid;
+grid-template-columns:repeat(3,100px);
+gap:10px;
+justify-content:center;
+margin-top:20px;
 }
 
-#no{
-background:#999;
-color:white;
-position:absolute;
-}
-
-#game{
-display:none;
-}
-
-#message{
-display:none;
-}
-
-.heart{
-position:absolute;
-font-size:30px;
+.cell{
+width:100px;
+height:100px;
+background:white;
+border-radius:10px;
+font-size:40px;
+display:flex;
+align-items:center;
+justify-content:center;
 cursor:pointer;
-animation:fall 4s linear;
 }
 
-@keyframes fall{
-from{transform:translateY(-50px);}
-to{transform:translateY(100vh);}
+#mission,#game,#saved,#message{
+display:none;
 }
-
 </style>
 </head>
 
 <body>
 
-<!-- السؤال -->
 <div class="container" id="question">
-
-<h1>تحبيني ؟ 🤭</h1>
-
+<h1>تحبيني؟ 🤭</h1>
 <button id="yes" onclick="startMission()">إيوا 😍</button>
 <button id="no">لا 🙈</button>
-
 </div>
 
-<!-- المهمة -->
-<div class="container" id="mission" style="display:none">
-
-<h1>
-إذا تحبيني صدق...  
-فوزي باللعبة وأنقذيني ❤️
-</h1>
-
-<button onclick="startGame()">ابدئي المهمة 🚀</button>
-
+<div class="container" id="mission">
+<h2> إذا تحبيني صدق... فوزي بلعبة إكس أو وأنقذيني ❤️</h2>
+<button onclick="startGame()">ابدئي اللعبة 🎮</button>
 </div>
 
-<!-- اللعبة -->
 <div class="container" id="game">
+<h2>فوزي علي 😏</h2>
 
-<h1>اسمعي عيوني جمعي 15 قلب خلال 10 ثواني</h1>
-
-<p>النقاط: <span id="score">0</span></p>
-<p>الوقت: <span id="time">10</span></p>
+<div id="gameBoard">
+<div class="cell" onclick="play(this,0)"></div>
+<div class="cell" onclick="play(this,1)"></div>
+<div class="cell" onclick="play(this,2)"></div>
+<div class="cell" onclick="play(this,3)"></div>
+<div class="cell" onclick="play(this,4)"></div>
+<div class="cell" onclick="play(this,5)"></div>
+<div class="cell" onclick="play(this,6)"></div>
+<div class="cell" onclick="play(this,7)"></div>
+<div class="cell" onclick="play(this,8)"></div>
+</div>
 
 </div>
 
-<!-- بعد الفوز -->
-<div class="container" id="saved" style="display:none">
-
-<h1>أنقذتيني 🥳🥳🥳❤️</h1>
-
+<div class="container" id="saved">
+<h1>أنقذتيني ❤️</h1>
 <button onclick="showLove()">افتحي المعايدة 🎁</button>
-
 </div>
 
-<!-- المعايدة -->
 <div class="container" id="message">
-
 <h1>✨ معايدتي لزوجتي الغالية ✨</h1>
-
 <p>
-من قلبي أقولها  
+من قلبي أقولها…  
 وجودك بحياتي هو العيد 🤍  
 كل سنة وأنا أحبك أكثر  
 وكل يوم أحمد الله عليك  
 أحبك للأبد 🤎🌹
 </p>
-
 </div>
 
 <script>
 
 const noBtn=document.getElementById("no");
 
-noBtn.addEventListener("mouseover",()=>{
+function move(){
 const x=Math.random()*(window.innerWidth-100);
 const y=Math.random()*(window.innerHeight-50);
 noBtn.style.left=x+"px";
 noBtn.style.top=y+"px";
-});
+}
+
+noBtn.addEventListener("mouseover",move);
+noBtn.addEventListener("touchstart",move);
 
 function startMission(){
-
 document.getElementById("question").style.display="none";
 document.getElementById("mission").style.display="block";
+}
+
+let board=["","","","","","","","",""];
+
+function startGame(){
+document.getElementById("mission").style.display="none";
+document.getElementById("game").style.display="block";
+}
+
+function play(cell,index){
+
+if(board[index]!="") return;
+
+board[index]="❤️";
+cell.innerHTML="❤️";
+
+if(checkWin("❤️")){
+win();
+return;
+}
+
+computerMove();
 
 }
 
-let score=0;
-let time=10;
-let gameInterval;
-let heartInterval;
+function computerMove(){
 
-function startGame(){
+let empty=[];
 
-document.getElementById("mission").style.display="none";
-document.getElementById("game").style.display="block";
+for(let i=0;i<board.length;i++){
+if(board[i]=="") empty.push(i);
+}
 
-score=0;
-time=10;
+if(empty.length==0) return;
 
-document.getElementById("score").innerText=score;
-document.getElementById("time").innerText=time;
+let random=empty[Math.floor(Math.random()*empty.length)];
 
-gameInterval=setInterval(()=>{
+board[random]="🤖";
 
-time--;
-document.getElementById("time").innerText=time;
+document.getElementsByClassName("cell")[random].innerHTML="🤖";
 
-if(time<=0){
+}
 
-clearInterval(gameInterval);
-clearInterval(heartInterval);
+function checkWin(p){
 
-if(score>=15){
+const wins=[
+[0,1,2],[3,4,5],[6,7,8],
+[0,3,6],[1,4,7],[2,5,8],
+[0,4,8],[2,4,6]
+];
+
+return wins.some(c=>c.every(i=>board[i]==p));
+
+}
+
+function win(){
 
 document.getElementById("game").style.display="none";
 document.getElementById("saved").style.display="block";
-
-}else{
-
-alert("ما قدرتِ تنقذيني 😜 حاولي مرة ثانية");
-startGame();
-
-}
-
-}
-
-},1000);
-
-heartInterval=setInterval(createHeart,600);
-
-}
-
-function createHeart(){
-
-const heart=document.createElement("div");
-
-const good=Math.random()>0.3;
-
-heart.className="heart";
-
-heart.innerHTML=good?"❤️":"💔";
-
-heart.style.left=Math.random()*90+"vw";
-
-heart.onclick=function(){
-
-if(good){
-
-score++;
-
-}else{
-
-score=Math.max(0,score-2);
-
-}
-
-document.getElementById("score").innerText=score;
-
-heart.remove();
-
-}
-
-document.body.appendChild(heart);
-
-setTimeout(()=>heart.remove(),4000);
 
 }
 
@@ -237,3 +192,5 @@ document.getElementById("message").style.display="block";
 
 </body>
 </html>
+```
+
