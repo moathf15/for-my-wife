@@ -344,6 +344,35 @@ function startHearts(){
   heartsInterval = setInterval(createHeart, 250);
 }
 </script>
+<!-- مشغل أغنية حبه جنة -->
+<div id="musicPlayer" style="display:none; position:fixed; bottom:30px; left:50%; transform:translateX(-50%); background:rgba(255,255,255,0.9); padding:15px 25px; border-radius:22px; box-shadow:0 6px 18px rgba(0,0,0,0.07); text-align:center; z-index:10;">
+  <img src="https://upload.wikimedia.org/wikipedia/en/5/5f/Hello_Kitty.svg" alt="Hello Kitty" style="width:80px; margin-bottom:10px;">
+  <div style="font-weight:bold; margin-bottom:8px; color:#c2185b;">حبه جنة - شيرين عبد الوهاب</div>
+  <audio id="song" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+  <button onclick="toggleSong()" style="background:#c2185b; color:white; border:none; border-radius:12px; padding:8px 16px; font-size:16px; cursor:pointer;">▶️ تشغيل</button>
+</div>
 
+<script>
+function showMusicPlayer(){
+  const player = document.getElementById('musicPlayer');
+  player.style.display = 'block';
+  document.getElementById('song').play();
+}
+
+// يظهر المشغل بعد ظهور رسالة المعايدة
+const messageScreen = document.getElementById('message');
+const observer = new MutationObserver(() => {
+  if(messageScreen.classList.contains('active')){
+    showMusicPlayer();
+  }
+});
+observer.observe(messageScreen, { attributes: true, attributeFilter: ['class'] });
+
+function toggleSong(){
+  const audio = document.getElementById('song');
+  if(audio.paused) audio.play();
+  else audio.pause();
+}
+</script>
 </body>
 </html>
