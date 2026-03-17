@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> <html lang="ar"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>معايدة لزوجتي ❤️</title> <style> body{ margin:0; font-family:Arial,sans-serif; background:linear-gradient(180deg,#fffdfd 0%, #fff4f8 45%, #ffe3ec 100%); text-align:center; direction:rtl; min-height:100vh; overflow-x:hidden; } .container{ position:relative; z-index:2; width:90%; max-width:800px; margin:0 auto; padding:40px 15px; } .screen{ display:none; min-height:100vh; box-sizing:border-box; justify-content:center; align-items:center; flex-direction:column; } .screen.active{ display:flex; } h1,h2{ color:#c2185b; line-height:1.8; margin-bottom:18px; } p{ font-size:22px; color:#444; line-height:2.2; white-space:normal; word-break:break-word; } button{ font-size:20px; padding:12px 22px; border:none; border-radius:18px; cursor:pointer; margin:8px; transition:0.2s; background:white; color:#444; box-shadow:0 4px 12px rgba(0,0,0,0.08); } button:hover{ transform:scale(1.03); } #yes,#nextBtn{ background:#c2185b; color:white; } #no{ position:absolute; } .answers{ position:relative; width:100%; max-width:700px; height:340px; margin:25px auto 0; } .answer{ position:absolute; min-width:120px; background:white; color:#444; } #message p{ background:rgba(255,255,255,0.72); padding:25px 18px; border-radius:22px; box-shadow:0 6px 18px rgba(0,0,0,0.07); font-size:21px; } .heart{ position:fixed; color:#ff4d6d; font-size:20px; animation:float 6s linear infinite; pointer-events:none; z-index:1; } @keyframes float{ 0%{ transform:translateY(100vh) scale(1); opacity:1; } 100%{ transform:translateY(-10vh) scale(1.5); opacity:0; } } @media (max-width:600px){ h1,h2{ font-size:26px; } p{ font-size:18px; line-height:2; } button{ font-size:18px; padding:10px 18px; } .answers{ height:380px; } #message p{ font-size:18px; } } </style> </head> <body> <div class="screen active" id="questionScreen"> <div class="container"> <h1>تحبيني؟ 🤭</h1> <button id="yes" onclick="startMission()">إيوا 😍</button> <button id="no">لا 🙈</button> </div> </div> <div class="screen" id="missionScreen"> <div class="container"> <h2>إذا تحبيني صدق... جاوبي على الأسئلة وأنقذيني ❤️</h2> <button id="nextBtn" onclick="startQuiz()">ابدئي الأسئلة 🎀</button> </div> </div> <div class="screen" id="quizScreen"> <div class="container"> <h2 id="questionTitle"></h2> <div class="answers" id="answersBox"></div> </div> </div> <div class="screen" id="encourageScreen"> <div class="container"> <h2 id="encourageText"></h2> <button id="nextBtn" onclick="nextQuestion()">السؤال اللي بعده 😌</button> </div> </div> <div class="screen" id="message"> <div class="container"> <h1>✨ معايدتي لزوجتي الغالية ✨</h1> <p> أنتِ لا تستوعبين كيف أراكِ،<br> وبأي طريقةٍ أنغمس في تفاصيلك.<br> نظرةٌ بسيطة من عينيك تُحدث في قلبي أحداثًا كبيرة،<br> وكيف أرى قليلك كثيرًا، منعشًا، شافيًا.<br><br> أرى في ملامحك البراءة، والقوة، والشجاعة، والحنان،<br> وأحب فيك طريقة إنصاتك، وحديثك العفوي الجميل.<br> أنتِ هنيّةٌ جدًا على الروح،<br> وكلّما رأيتك بائسةً أكون لك جسرًا<br> تعبرين من خلالي نحو الابتهاج.<br><br> أيّتها الكثيرة في قلبي...<br><br> من قلبي أقولها…<br> وجودك بحياتي هو العيد 🤍<br> كل سنة وأنا أحبك أكثر،<br> وكل يوم أحمد الله عليك،<br> أحبك للأبد 🤎🌹 </p> </div> </div> <script> const noBtn = document.getElementById("no"); function moveNoButton(){ const x = Math.random() * (window.innerWidth - 110); const y = Math.random() * (window.innerHeight - 60); noBtn.style.left = x + "px"; noBtn.style.top = y + "px"; } noBtn.addEventListener("mouseover", moveNoButton); noBtn.addEventListener("touchstart", moveNoButton); function showScreen(id){ document.querySelectorAll(".screen").forEach(screen=>{ screen.classList.remove("active"); }); document.getElementById(id).classList.add("active"); } function startMission(){ showScreen("missionScreen"); } const quizData = [ { question: "مين أكثر شخص يحبك في الدنيا؟ 😌", options: ["أنا", "البسه", "سواق التكسي", "بطارية الجوال"], correct: "أنا", message: "صح عليك.. البداية قوية والنجاح يليق فيك ❤️" }, { question: "أكثر شيء يضبط يومي؟", options: ["ضحكتك", "فاتورة الكهرباء", "صوت المنبه", "إشارة المرور"], correct: "ضحكتك", message: "أيييه كذا، واضح إنك فاهمتني مرة 🤍" }, { question: "إذا زعلت، مين يواضيني بسرعة؟", options: ["إنتِ", "الواي فاي", "الشاهي بدون سكر", "مكيف المجلس"], correct: "إنتِ", message: "بطلة والله زوجتيي، أنقذتيني من الزعل قبل أصلًا 😎😎❤️" }, { question: "أنا بالنسبة لك وش؟", options: ["كل شيء", "مندوب شحن", "جدول الضرب", "دراجة الحارة"], correct: "كل شيء", message: "يا سلام... جواب يفوز بالقلب مباشرة 🌹" }, { question: "جاذبية الأرض إيش هي؟ 😏", options: ["٩.٨", "عيونك", "أنا", "لمبة الثلاجة"], correct: "عيونك", message: "عرفت إنك خطيرة... خلاص سحبتي ا<!DOCTYPE html>
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
@@ -203,14 +203,6 @@ button:hover{
   </div>
 </div>
 
-<!-- مشغل أغنية حبه جنة + Hello Kitty -->
-<div id="musicPlayer" style="display:none; position:fixed; bottom:30px; left:50%; transform:translateX(-50%); background:rgba(255,255,255,0.9); padding:15px 25px; border-radius:22px; box-shadow:0 6px 18px rgba(0,0,0,0.07); text-align:center; z-index:10;">
-  <img src="https://upload.wikimedia.org/wikipedia/en/5/5f/Hello_Kitty.svg" alt="Hello Kitty" style="width:80px; margin-bottom:10px;">
-  <div style="font-weight:bold; margin-bottom:8px; color:#c2185b;">حبه جنة - شيرين عبد الوهاب</div>
-  <audio id="song" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
-  <button onclick="toggleSong()" style="background:#c2185b; color:white; border:none; border-radius:12px; padding:8px 16px; font-size:16px; cursor:pointer;">▶️ تشغيل</button>
-</div>
-
 <script>
 const noBtn = document.getElementById("no");
 
@@ -350,27 +342,6 @@ let heartsInterval;
 function startHearts(){
   if(heartsInterval) clearInterval(heartsInterval);
   heartsInterval = setInterval(createHeart, 250);
-}
-
-// مشغل أغنية حبه جنة
-function showMusicPlayer(){
-  const player = document.getElementById('musicPlayer');
-  player.style.display = 'block';
-  document.getElementById('song').play();
-}
-
-const messageScreen = document.getElementById('message');
-const observer = new MutationObserver(() => {
-  if(messageScreen.classList.contains('active')){
-    showMusicPlayer();
-  }
-});
-observer.observe(messageScreen, { attributes: true, attributeFilter: ['class'] });
-
-function toggleSong(){
-  const audio = document.getElementById('song');
-  if(audio.paused) audio.play();
-  else audio.pause();
 }
 </script>
 
