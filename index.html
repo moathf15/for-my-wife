@@ -9,7 +9,7 @@
 body{
   margin:0;
   font-family:Arial,sans-serif;
-  background:linear-gradient(180deg,#fffdfd 0%, #fff1f6 40%, #ffd9e8 100%);
+  background:linear-gradient(180deg,#fffdfd 0%, #fff4f8 45%, #ffe3ec 100%);
   text-align:center;
   direction:rtl;
   min-height:100vh;
@@ -20,14 +20,15 @@ body{
   position:relative;
   z-index:2;
   width:90%;
-  max-width:750px;
+  max-width:800px;
   margin:0 auto;
-  padding:35px 15px;
+  padding:40px 15px;
 }
 
 .screen{
   display:none;
   min-height:100vh;
+  box-sizing:border-box;
   justify-content:center;
   align-items:center;
   flex-direction:column;
@@ -39,66 +40,115 @@ body{
 
 h1,h2{
   color:#c2185b;
+  line-height:1.8;
+  margin-bottom:18px;
 }
 
 p{
-  font-size:20px;
-  line-height:2;
+  font-size:22px;
+  color:#444;
+  line-height:2.2;
+  white-space:normal;
+  word-break:break-word;
 }
 
 button{
-  font-size:18px;
+  font-size:20px;
   padding:12px 22px;
   border:none;
-  border-radius:20px;
+  border-radius:18px;
   cursor:pointer;
   margin:8px;
+  transition:0.2s;
   background:white;
-  box-shadow:0 4px 12px rgba(0,0,0,0.1);
+  color:#444;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
 
-#yes,#nextBtn,.mainBtn{
-  background:#e91e63;
+button:hover{
+  transform:scale(1.03);
+}
+
+#yes,#nextBtn{
+  background:#c2185b;
   color:white;
 }
 
-#openSong{
-  background:#ff4d88;
-  color:white;
-  font-size:20px;
-  padding:14px 26px;
-  border-radius:25px;
+#no{
+  position:absolute;
 }
 
-#no{ position:absolute; }
+.answers{
+  position:relative;
+  width:100%;
+  max-width:700px;
+  height:340px;
+  margin:25px auto 0;
+}
+
+.answer{
+  position:absolute;
+  min-width:120px;
+  background:white;
+  color:#444;
+}
+
+#message p{
+  background:rgba(255,255,255,0.72);
+  padding:25px 18px;
+  border-radius:22px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.07);
+  font-size:21px;
+}
 
 .heart{
   position:fixed;
   color:#ff4d6d;
-  animation:float 5s linear infinite;
+  font-size:20px;
+  animation:float 6s linear infinite;
   pointer-events:none;
+  z-index:1;
 }
 
 @keyframes float{
-  0%{transform:translateY(100vh);opacity:1;}
-  100%{transform:translateY(-10vh);opacity:0;}
+  0%{
+    transform:translateY(100vh) scale(1);
+    opacity:1;
+  }
+  100%{
+    transform:translateY(-10vh) scale(1.5);
+    opacity:0;
+  }
 }
 
-#message p{
-  background:rgba(255,255,255,0.75);
-  padding:20px;
-  border-radius:20px;
-}
+@media (max-width:600px){
+  h1,h2{
+    font-size:26px;
+  }
 
-@media(max-width:600px){
-  p{font-size:17px;}
+  p{
+    font-size:18px;
+    line-height:2;
+  }
+
+  button{
+    font-size:18px;
+    padding:10px 18px;
+  }
+
+  .answers{
+    height:380px;
+  }
+
+  #message p{
+    font-size:18px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- البداية -->
 <div class="screen active" id="questionScreen">
   <div class="container">
     <h1>تحبيني؟ 🤭</h1>
@@ -109,40 +159,52 @@ button{
 
 <div class="screen" id="missionScreen">
   <div class="container">
-    <h2>إذا تحبيني صدق... جاوبي على الأسئلة ❤️</h2>
-    <button id="nextBtn" onclick="startQuiz()">ابدئي 🎀</button>
+    <h2>إذا تحبيني صدق... جاوبي على الأسئلة اذا تحبيني😉 ❤️</h2>
+    <button id="nextBtn" onclick="startQuiz()">ابدئي الأسئلة 🎀</button>
   </div>
 </div>
 
 <div class="screen" id="quizScreen">
   <div class="container">
     <h2 id="questionTitle"></h2>
-    <div id="answersBox"></div>
+    <div class="answers" id="answersBox"></div>
   </div>
 </div>
 
 <div class="screen" id="encourageScreen">
   <div class="container">
     <h2 id="encourageText"></h2>
-    <button onclick="nextQuestion()">التالي 😌</button>
+    <button id="nextBtn" onclick="nextQuestion()">السؤال اللي بعده 😌</button>
   </div>
 </div>
 
 <!-- الرسالة -->
 <div class="screen" id="message">
   <div class="container">
-    <h1>✨ معايدتي لك ❤️ ✨</h1>
+    <h1>✨ معايدتي لحبيبه عيوني الغالية ✨</h1>
     <p>
-      وجودك بحياتي هو العيد 🤍<br>
-      كل سنة وأنا أحبك أكثر<br>
-      أحبك للأبد 🌹
-      <br><br>
-      <b>استلمي معايدتك 🎁</b>
-    </p>
+      أنتِ لا تستوعبين كيف أراكِ،<br>
+      وبأي طريقةٍ أنغمس في تفاصيلك.<br>
+      نظرةٌ بسيطة من عينيك تُحدث في قلبي أحداثًا كبيرة،<br>
+      وكيف أرى قليلك كثيرًا، منعشًا، شافيًا.<br><br>
 
-    <button class="mainBtn" onclick="showScreen('songScreen')">
-      اضغطي هنا 💕
-    </button>
+      أرى في ملامحك البراءة، والقوة، والشجاعة، والحنان،<br>
+      وأحب فيك طريقة إنصاتك، وحديثك العفوي الجميل.<br>
+      أنتِ هنيّةٌ جدًا على الروح،<br>
+      وكلّما رأيتك بائسةً أكون لك جسرًا<br>
+      تعبرين من خلالي نحو الابتهاج.<br><br>
+
+      أيّتها الكثيرة في قلبي...<br><br>
+
+      من قلبي أقولها…<br>
+      وجودك بحياتي هو العيد 🤍<br>
+      كل سنة وأنا أحبك أكثر،<br>
+      وكل يوم أحمد الله عليك،<br>
+      أحبك للأبد 🤎🌹
+      <br><br>
+      <b>استلمي معايدتك 🎁</b><br><br>
+      <button onclick="showScreen('songScreen')">اضغطي هنا 💕</button>
+    </p>
   </div>
 </div>
 
@@ -150,10 +212,7 @@ button{
 <div class="screen" id="songScreen">
   <div class="container">
     <h1>افتحي الأغنية يا قمر 😉😉😉</h1>
-
-    <button id="openSong" onclick="openSong()">
-      اضغطي هنا 🎶
-    </button>
+    <button onclick="openSong()">اضغطي هنا 🎶</button>
   </div>
 </div>
 
@@ -161,78 +220,147 @@ button{
 const noBtn = document.getElementById("no");
 
 function moveNoButton(){
-  noBtn.style.left = Math.random()*window.innerWidth+"px";
-  noBtn.style.top = Math.random()*window.innerHeight+"px";
+  const x = Math.random() * (window.innerWidth - 110);
+  const y = Math.random() * (window.innerHeight - 60);
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
 }
-noBtn.onmouseover = moveNoButton;
+noBtn.addEventListener("mouseover", moveNoButton);
+noBtn.addEventListener("touchstart", moveNoButton);
 
 function showScreen(id){
-  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.querySelectorAll(".screen").forEach(screen=>{
+    screen.classList.remove("active");
+  });
   document.getElementById(id).classList.add("active");
 }
 
-function startMission(){ showScreen("missionScreen"); }
-
-const quizData = [
-  {q:"مين يحبك أكثر؟",o:["أنا","التكسي","الجوال","القهوة"],c:"أنا",m:"صح ❤️"},
-  {q:"إيش يفرحني؟",o:["ضحكتك","المنبه","الفاتورة","الحر"],c:"ضحكتك",m:"بطلة 🤍"},
-  {q:"مين يواسيني؟",o:["إنتِ","الواي فاي","الشاي","النت"],c:"إنتِ",m:"يا سلام ❤️"}
-];
-
-let i=0;
-
-function startQuiz(){
-  i=0;
-  showScreen("quizScreen");
-  render();
+function startMission(){
+  showScreen("missionScreen");
 }
 
-function render(){
-  let q=quizData[i];
-  document.getElementById("questionTitle").innerText=q.q;
-  let box=document.getElementById("answersBox");
-  box.innerHTML="";
-  q.o.forEach(op=>{
-    let b=document.createElement("button");
-    b.innerText=op;
-    b.onclick=()=> op===q.c ? correct() : moveWrong(b);
-    box.appendChild(b);
+const quizData = [
+  {
+    question: "مين أكثر شخص يحبك في الدنيا؟ 😌",
+    options: ["أنا", "البسه", "سواق التكسي", "بطارية الجوال"],
+    correct: "أنا",
+    message: "صح عليك.. البداية قوية والنجاح يليق فيك ❤️"
+  },
+  {
+    question: "أكثر شيء يضبط يومي؟",
+    options: ["ضحكتك", "الشاهي", "صوت المنبه", "إشارة المرور"],
+    correct: "ضحكتك",
+    message: "أيييه كذا، واضح إنك فاهمتني مرة 🤍"
+  },
+  {
+    question: "إذا زعلت، مين يراضيني بسرعة؟",
+    options: ["إنتِ", "غيبوبه العيد", "الشاهي ", "مكيف المجلس"],
+    correct: "إنتِ",
+    message: "بطلة والله زوجتيي، أنقذتيني من الزعل قبل أصلًا 😎😎❤️"
+  },
+  {
+    question: "أنا بالنسبة لك وش؟",
+    options: ["كل شيء", "مندوب شحن", "جدول الضرب", "دراجة الحارة"],
+    correct: "كل شيء",
+    message: "يا سلام... جواب يفوز بالقلب مباشرة 🌹"
+  },
+  {
+    question: "جاذبية الأرض إيش هي؟ 😏",
+    options: ["٩.٨", "عيونك", "أنا", "لمبة الثلاجة"],
+    correct: "عيونك",
+    message: "عرفت إنك خطيرة... خلاص سحبتي الجاذبية من الكوكب كله ✨❤️"
+  }
+];
+
+let currentQuestion = 0;
+
+function startQuiz(){
+  currentQuestion = 0;
+  showScreen("quizScreen");
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const q = quizData[currentQuestion];
+  document.getElementById("questionTitle").innerText = q.question;
+
+  const answersBox = document.getElementById("answersBox");
+  answersBox.innerHTML = "";
+
+  const positions = [
+    {top:"20px", right:"20px"},
+    {top:"20px", left:"20px"},
+    {bottom:"20px", right:"20px"},
+    {bottom:"20px", left:"20px"}
+  ];
+
+  q.options.forEach((option, index) => {
+    const btn = document.createElement("button");
+    btn.className = "answer";
+    btn.innerText = option;
+
+    Object.assign(btn.style, positions[index]);
+
+    if(option === q.correct){
+      btn.onclick = () => correctAnswer();
+    } else {
+      btn.onmouseover = () => moveWrongButton(btn);
+      btn.ontouchstart = () => moveWrongButton(btn);
+      btn.onclick = () => moveWrongButton(btn);
+    }
+
+    answersBox.appendChild(btn);
   });
 }
 
-function moveWrong(b){
-  b.style.position="absolute";
-  b.style.left=Math.random()*200+"px";
-  b.style.top=Math.random()*200+"px";
+function moveWrongButton(btn){
+  const box = document.getElementById("answersBox");
+  const maxX = box.clientWidth - 140;
+  const maxY = box.clientHeight - 70;
+
+  btn.style.left = Math.random() * maxX + "px";
+  btn.style.top = Math.random() * maxY + "px";
+  btn.style.right = "auto";
+  btn.style.bottom = "auto";
 }
 
-function correct(){
-  document.getElementById("encourageText").innerText=quizData[i].m;
+function correctAnswer(){
+  document.getElementById("encourageText").innerText = quizData[currentQuestion].message;
   showScreen("encourageScreen");
 }
 
 function nextQuestion(){
-  i++;
-  if(i<quizData.length){showScreen("quizScreen");render();}
-  else{showScreen("message");startHearts();}
+  currentQuestion++;
+
+  if(currentQuestion < quizData.length){
+    showScreen("quizScreen");
+    renderQuestion();
+  } else {
+    showScreen("message");
+    startHearts();
+  }
 }
 
+/* فتح الأغنية */
 function openSong(){
-  window.open("https://youtu.be/B8w0eUMFxGs","_blank");
+  window.open("https://youtu.be/B8w0eUMFxGs", "_blank");
 }
 
+/* القلوب */
 function createHeart(){
-  let h=document.createElement("div");
-  h.className="heart";
-  h.innerHTML="💖";
-  h.style.left=Math.random()*100+"vw";
-  h.style.fontSize=(20+Math.random()*30)+"px";
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),5000);
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "💖";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = (15 + Math.random() * 30) + "px";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 6000);
 }
 
+let heartsInterval;
 function startHearts(){
-  setInterval(createHeart,150);
+  if(heartsInterval) clearInterval(heartsInterval);
+  heartsInterval = setInterval(createHeart, 120);
 }
 </script>
 
